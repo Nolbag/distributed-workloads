@@ -37,7 +37,10 @@ gpgkey=https://repo.radeon.com/rocm/rocm.gpg.key
 EOD
 EOF
 
-RUN yum -y install rocm && yum clean all && rm -rf /var/cache/yum
+RUN yum -y install rocm \
+      && yum clean all \
+      && rm -rf /var/cache/yum/* \
+      && rpm --restore redhat-rpm-config
 
 # Install Python packages
 

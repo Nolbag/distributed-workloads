@@ -32,7 +32,7 @@ RUN yum upgrade -y && yum install -y \
     cuda-cudart-12-1-${NV_CUDA_CUDART_VERSION} \
     cuda-compat-12-1 \
     && yum clean all \
-    && rm -rf /var/cache/yum/*
+    && rm -rf /var/cache/yum/* 
 
 # nvidia-docker 1.0
 RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
@@ -41,7 +41,8 @@ RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
 ENV PATH=/usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
 ENV LD_LIBRARY_PATH=/usr/local/nvidia/lib:/usr/local/nvidia/lib64
 
-COPY NGC-DL-CONTAINER-LICENSE /
+RUN mkdir -p /licenses
+COPY NGC-DL-CONTAINER-LICENSE /licenses/
 
 # nvidia-container-runtime
 ENV NVIDIA_VISIBLE_DEVICES=all
@@ -119,7 +120,8 @@ RUN yum install -y \
     ${NV_CUDNN_PACKAGE} \
     ${NV_CUDNN_PACKAGE_DEV} \
     && yum clean all \
-    && rm -rf /var/cache/yum/*
+    && rm -rf /var/cache/yum/* \
+    && rpm --restore redhat-rpm-config
 
 # Install Python packages
 
